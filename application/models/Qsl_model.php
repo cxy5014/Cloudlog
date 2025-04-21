@@ -139,4 +139,17 @@ class Qsl_model extends CI_Model
 
         return $this->db->insert_id();
     }
+
+    function addMultipleQsosToQsl($qsoids, $filename) {
+        $result = array();
+        foreach($qsoids as $qsoid) {
+            $insertid = $this->addQsotoQsl($qsoid, $filename);
+            $result[] = array(
+                'qsoid' => $qsoid,
+                'status' => 'Success',
+                'insertid' => $insertid
+            );
+        }
+        return $result;
+    }
 }

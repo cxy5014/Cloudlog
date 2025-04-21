@@ -181,4 +181,24 @@ class Qsl extends CI_Controller {
         $this->load->view('qslcard/qslcarousel', $data);
     }
 
+    function addMultipleQsosToQsl() {
+        $qsoids = $this->input->post('qsoids');
+        $filename = $this->input->post('filename');
+        
+        $this->load->model('Qsl_model');
+        
+        $result = array();
+        foreach($qsoids as $qsoid) {
+            $insertid = $this->Qsl_model->addQsotoQsl($qsoid, $filename);
+            $result[] = array(
+                'qsoid' => $qsoid,
+                'status' => 'Success',
+                'insertid' => $insertid
+            );
+        }
+        
+        header("Content-type: application/json");
+        echo json_encode($result);
+    }
+
 }
